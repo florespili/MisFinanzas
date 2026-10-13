@@ -1,0 +1,136 @@
+{
+  "entities": {
+    "Transaction": {
+      "title": "Transaction",
+      "description": "A financial income, expense, or savings record belonging to a user",
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Financial type: ingreso, gasto, or ahorro",
+          "enum": ["ingreso", "gasto", "ahorro"]
+        },
+        "category_id": {
+          "type": "string",
+          "description": "Category ID or name associated with this transaction",
+          "maxLength": 100
+        },
+        "subcategory": {
+          "type": "string",
+          "description": "Subcategory name or detail",
+          "maxLength": 100
+        },
+        "amount": {
+          "type": "number",
+          "description": "Monetary value of the transaction"
+        },
+        "date": {
+          "type": "string",
+          "description": "Date in ISO format YYYY-MM-DD",
+          "maxLength": 30
+        },
+        "note": {
+          "type": "string",
+          "description": "Optional notes or details for the transaction",
+          "maxLength": 500
+        },
+        "created_at": {
+          "type": "string",
+          "description": "Timestamp when the transaction was recorded",
+          "maxLength": 50
+        }
+      },
+      "required": ["type", "category_id", "amount", "date"]
+    },
+    "Category": {
+      "title": "Category",
+      "description": "A customized category for grouping transactions",
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Financial type: ingreso, gasto, or ahorro",
+          "enum": ["ingreso", "gasto", "ahorro"]
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name of the category",
+          "maxLength": 100
+        },
+        "icon_or_image_url": {
+          "type": "string",
+          "description": "Emoji string or image URL",
+          "maxLength": 2048
+        },
+        "subcategories": {
+          "type": "array",
+          "description": "List of subcategory names"
+        },
+        "created_at": {
+          "type": "string",
+          "description": "Timestamp when the category was created",
+          "maxLength": 50
+        }
+      },
+      "required": ["type", "name", "icon_or_image_url"]
+    },
+    "Budget": {
+      "title": "Budget",
+      "description": "Monthly spending budget limit for a category",
+      "type": "object",
+      "properties": {
+        "category_id": {
+          "type": "string",
+          "description": "Target category ID or name",
+          "maxLength": 100
+        },
+        "monthly_limit": {
+          "type": "number",
+          "description": "Maximum intended spend amount per month"
+        },
+        "created_at": {
+          "type": "string",
+          "description": "Timestamp when the budget was set",
+          "maxLength": 50
+        }
+      },
+      "required": ["category_id", "monthly_limit"]
+    },
+    "PinConfig": {
+      "title": "PinConfig",
+      "description": "User security PIN hash for quick app lock/unlock",
+      "type": "object",
+      "properties": {
+        "pin_hash": {
+          "type": "string",
+          "description": "Hashed or salted representation of 4-digit PIN",
+          "maxLength": 128
+        },
+        "created_at": {
+          "type": "string",
+          "description": "Timestamp when the PIN was initialized or updated",
+          "maxLength": 50
+        }
+      },
+      "required": ["pin_hash"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}/transactions/{txId}": {
+      "schema": { "$ref": "Transaction" },
+      "description": "Financial income, expense, and savings transactions of the user"
+    },
+    "/users/{userId}/categories/{catId}": {
+      "schema": { "$ref": "Category" },
+      "description": "User categories for transactions"
+    },
+    "/users/{userId}/budgets/{budgetId}": {
+      "schema": { "$ref": "Budget" },
+      "description": "Monthly budgets configured per category"
+    },
+    "/users/{userId}/config/{configId}": {
+      "schema": { "$ref": "PinConfig" },
+      "description": "Security settings such as PIN code hash"
+    }
+  }
+}

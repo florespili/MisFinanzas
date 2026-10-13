@@ -1,0 +1,7 @@
+{
+  "name": "Mis Finanzas",
+  "description": "Aplicación web moderna de finanzas personales con estética pastel minimalista, sincronización en tiempo real y seguridad con PIN.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
