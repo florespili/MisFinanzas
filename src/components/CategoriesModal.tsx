@@ -124,12 +124,12 @@ export const CategoriesModal: React.FC<CategoriesModalProps> = ({ isOpen, onClos
 
   return (
     <>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/35 backdrop-blur-xs">
-        <div className="bg-white w-full max-w-xl rounded-3xl border border-[#EDE8DF] shadow-2xl max-h-[92vh] flex flex-col overflow-hidden animate-scale-up">
+      <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/40 backdrop-blur-xs overflow-y-auto overscroll-contain-touch">
+        <div className="bg-white w-full sm:max-w-xl rounded-t-3xl sm:rounded-3xl border border-[#EDE8DF] shadow-2xl max-h-[92dvh] sm:max-h-[88vh] flex flex-col overflow-hidden animate-slide-up sm:animate-scale-up">
           {/* Header */}
-          <div className="flex items-center justify-between px-6 pt-5 pb-4 border-b border-[#F0EBE1]">
+          <div className="flex items-center justify-between px-5 pt-4 pb-3 sm:px-6 sm:pt-5 sm:pb-4 border-b border-[#F0EBE1] shrink-0">
             <div>
-              <h2 className="text-lg font-bold text-[#2D2721]">
+              <h2 className="text-base sm:text-lg font-bold text-[#2D2721]">
                 {isFormOpen
                   ? editingCategory
                     ? 'Editar Categoría'
@@ -153,123 +153,137 @@ export const CategoriesModal: React.FC<CategoriesModalProps> = ({ isOpen, onClos
 
           {!isFormOpen ? (
             /* LIST VIEW */
-            <div className="flex-1 overflow-y-auto px-6 py-4 flex flex-col">
-              {/* Type Switcher Tabs */}
-              <div className="grid grid-cols-3 gap-2 p-1 bg-[#F5EFE6] rounded-2xl mb-4">
-                <button
-                  type="button"
-                  onClick={() => setActiveTab('gasto')}
-                  className={`py-2 text-xs font-bold rounded-xl transition-all ${
-                    activeTab === 'gasto'
-                      ? 'bg-[#FDECE8] text-[#8B2E2E] border border-[#F5C2BC] shadow-2xs'
-                      : 'text-[#7A7267] hover:text-[#2D2721]'
-                  }`}
-                >
-                  Gastos
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setActiveTab('ingreso')}
-                  className={`py-2 text-xs font-bold rounded-xl transition-all ${
-                    activeTab === 'ingreso'
-                      ? 'bg-[#EBF1E6] text-[#3B4B2E] border border-[#D3E1CB] shadow-2xs'
-                      : 'text-[#7A7267] hover:text-[#2D2721]'
-                  }`}
-                >
-                  Ingresos
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setActiveTab('ahorro')}
-                  className={`py-2 text-xs font-bold rounded-xl transition-all ${
-                    activeTab === 'ahorro'
-                      ? 'bg-[#FCF6E5] text-[#614E15] border border-[#F2E4BD] shadow-2xs'
-                      : 'text-[#7A7267] hover:text-[#2D2721]'
-                  }`}
-                >
-                  Ahorros
-                </button>
-              </div>
+            <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
+              <div className="flex-1 overflow-y-auto overscroll-contain-touch px-4 sm:px-6 py-4 space-y-4 min-h-0">
+                {/* Type Switcher Tabs */}
+                <div className="grid grid-cols-3 gap-2 p-1 bg-[#F5EFE6] rounded-2xl">
+                  <button
+                    type="button"
+                    onClick={() => setActiveTab('gasto')}
+                    className={`py-2 text-xs font-bold rounded-xl transition-all ${
+                      activeTab === 'gasto'
+                        ? 'bg-[#FDECE8] text-[#8B2E2E] border border-[#F5C2BC] shadow-2xs'
+                        : 'text-[#7A7267] hover:text-[#2D2721]'
+                    }`}
+                  >
+                    Gastos
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setActiveTab('ingreso')}
+                    className={`py-2 text-xs font-bold rounded-xl transition-all ${
+                      activeTab === 'ingreso'
+                        ? 'bg-[#EBF1E6] text-[#3B4B2E] border border-[#D3E1CB] shadow-2xs'
+                        : 'text-[#7A7267] hover:text-[#2D2721]'
+                    }`}
+                  >
+                    Ingresos
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setActiveTab('ahorro')}
+                    className={`py-2 text-xs font-bold rounded-xl transition-all ${
+                      activeTab === 'ahorro'
+                        ? 'bg-[#FCF6E5] text-[#614E15] border border-[#F2E4BD] shadow-2xs'
+                        : 'text-[#7A7267] hover:text-[#2D2721]'
+                    }`}
+                  >
+                    Ahorros
+                  </button>
+                </div>
 
-              {/* Add New Category Button */}
-              <button
-                type="button"
-                onClick={handleOpenCreate}
-                className="w-full mb-4 py-2.5 px-4 rounded-xl border border-dashed border-[#C4B2D8] bg-[#FAF8FC] hover:bg-[#F4EDFA] text-[#9678B6] font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-2xs"
-              >
-                <Plus size={16} />
-                <span>Crear Categoría de {activeTab === 'gasto' ? 'Gasto' : activeTab === 'ingreso' ? 'Ingreso' : 'Ahorro'}</span>
-              </button>
+                {/* Add New Category Button */}
+                <button
+                  type="button"
+                  onClick={handleOpenCreate}
+                  className="w-full py-2.5 px-4 rounded-xl border border-dashed border-[#C4B2D8] bg-[#FAF8FC] hover:bg-[#F4EDFA] text-[#9678B6] font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-2xs"
+                >
+                  <Plus size={16} />
+                  <span>Crear Categoría de {activeTab === 'gasto' ? 'Gasto' : activeTab === 'ingreso' ? 'Ingreso' : 'Ahorro'}</span>
+                </button>
 
-              {/* Categories list */}
-              <div className="space-y-2.5 flex-1 overflow-y-auto">
-                {categories
-                  .filter((c) => c.type === activeTab)
-                  .map((cat) => (
-                    <div
-                      key={cat.id}
-                      className="p-3.5 rounded-2xl border border-[#EDE8DF] bg-white hover:border-[#DCD5C9] transition-all flex items-start justify-between gap-3 shadow-2xs"
-                    >
-                      <div className="flex items-start gap-3 flex-1 min-w-0">
-                        <span className="text-2xl shrink-0 p-1.5 rounded-xl bg-[#FAF8F5] border border-[#F0EBE1]">
-                          {cat.icon_or_image_url}
-                        </span>
-                        <div className="flex-1 min-w-0">
-                          <h4 className="text-sm font-bold text-[#2D2721] truncate">
-                            {cat.name}
-                          </h4>
-                          {cat.subcategories.length > 0 ? (
-                            <div className="flex flex-wrap gap-1 mt-1.5">
-                              {cat.subcategories.map((sub, i) => (
-                                <span
-                                  key={i}
-                                  className="text-[10px] text-[#7A7267] bg-[#F5EFE6] px-2 py-0.5 rounded-md"
-                                >
-                                  {sub}
-                                </span>
-                              ))}
-                            </div>
-                          ) : (
-                            <span className="text-[11px] text-[#9E9588] italic">
-                              Sin subcategorías específicas
-                            </span>
-                          )}
+                {/* Categories list - single unified scroll flow without inner scroll trap */}
+                <div className="space-y-2.5">
+                  {categories
+                    .filter((c) => c.type === activeTab)
+                    .map((cat) => (
+                      <div
+                        key={cat.id}
+                        className="p-3 sm:p-3.5 rounded-2xl border border-[#EDE8DF] bg-white hover:border-[#DCD5C9] transition-all flex items-start justify-between gap-3 shadow-2xs"
+                      >
+                        <div className="flex items-start gap-2.5 sm:gap-3 flex-1 min-w-0">
+                          <span className="text-xl sm:text-2xl shrink-0 p-1.5 rounded-xl bg-[#FAF8F5] border border-[#F0EBE1]">
+                            {cat.icon_or_image_url}
+                          </span>
+                          <div className="flex-1 min-w-0">
+                            <h4 className="text-xs sm:text-sm font-bold text-[#2D2721] truncate">
+                              {cat.name}
+                            </h4>
+                            {cat.subcategories.length > 0 ? (
+                              <div className="flex flex-wrap gap-1 mt-1.5">
+                                {cat.subcategories.map((sub, i) => (
+                                  <span
+                                    key={i}
+                                    className="text-[10px] text-[#7A7267] bg-[#F5EFE6] px-2 py-0.5 rounded-md"
+                                  >
+                                    {sub}
+                                  </span>
+                                ))}
+                              </div>
+                            ) : (
+                              <span className="text-[11px] text-[#9E9588] italic">
+                                Sin subcategorías específicas
+                              </span>
+                            )}
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-1 shrink-0">
+                          <button
+                            type="button"
+                            onClick={() => handleOpenEdit(cat)}
+                            className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl flex items-center justify-center text-[#7A7267] hover:text-[#2D2721] hover:bg-[#F5EFE6] transition-colors"
+                            title="Editar"
+                          >
+                            <Edit2 size={14} />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setDeleteTargetId(cat.id)}
+                            className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl flex items-center justify-center text-[#7A7267] hover:text-[#8B2E2E] hover:bg-[#FDECE8] transition-colors"
+                            title="Eliminar"
+                          >
+                            <Trash2 size={14} />
+                          </button>
                         </div>
                       </div>
+                    ))}
 
-                      <div className="flex items-center gap-1 shrink-0">
-                        <button
-                          type="button"
-                          onClick={() => handleOpenEdit(cat)}
-                          className="w-8 h-8 rounded-xl flex items-center justify-center text-[#7A7267] hover:text-[#2D2721] hover:bg-[#F5EFE6] transition-colors"
-                          title="Editar"
-                        >
-                          <Edit2 size={15} />
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setDeleteTargetId(cat.id)}
-                          className="w-8 h-8 rounded-xl flex items-center justify-center text-[#7A7267] hover:text-[#8B2E2E] hover:bg-[#FDECE8] transition-colors"
-                          title="Eliminar"
-                        >
-                          <Trash2 size={15} />
-                        </button>
-                      </div>
+                  {categories.filter((c) => c.type === activeTab).length === 0 && (
+                    <div className="text-center py-8 text-xs text-[#8E867B]">
+                      No tienes categorías creadas para esta sección.
                     </div>
-                  ))}
+                  )}
+                </div>
+              </div>
 
-                {categories.filter((c) => c.type === activeTab).length === 0 && (
-                  <div className="text-center py-8 text-xs text-[#8E867B]">
-                    No tienes categorías creadas para esta sección.
-                  </div>
-                )}
+              {/* List View Footer */}
+              <div className="p-3 sm:p-4 bg-[#FAF8F5] border-t border-[#F0EBE1] flex justify-end shrink-0">
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="px-5 py-2 bg-[#9678B6] hover:bg-[#8666A6] text-white text-xs font-bold rounded-xl shadow-xs transition-all"
+                >
+                  Listo
+                </button>
               </div>
             </div>
           ) : (
             /* FORM VIEW (CREATE / EDIT) */
-            <form onSubmit={handleSaveCategory} className="flex-1 overflow-y-auto px-6 py-4 space-y-4">
-              {/* Type selector */}
-              <div>
+            <form onSubmit={handleSaveCategory} className="flex-1 flex flex-col min-h-0 overflow-hidden">
+              <div className="flex-1 overflow-y-auto overscroll-contain-touch px-4 sm:px-6 py-4 space-y-4 min-h-0">
+                {/* Type selector */}
+                <div>
                 <label className="block text-xs font-semibold text-[#5A5247] mb-1.5">
                   Tipo de Categoría
                 </label>
@@ -451,9 +465,10 @@ export const CategoriesModal: React.FC<CategoriesModalProps> = ({ isOpen, onClos
                   </button>
                 </div>
               </div>
+            </div>
 
-              {/* Action buttons */}
-              <div className="pt-3 flex items-center justify-end gap-3 border-t border-[#F0EBE1]">
+            {/* Action buttons (fixed footer outside scroll container) */}
+              <div className="p-3 sm:p-4 flex items-center justify-end gap-3 border-t border-[#F0EBE1] bg-white shrink-0">
                 <button
                   type="button"
                   onClick={() => setIsFormOpen(false)}

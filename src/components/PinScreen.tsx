@@ -120,18 +120,18 @@ export const PinScreen: React.FC = () => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#FAF8F5] p-4 select-none">
-      <div className="w-full max-w-sm flex flex-col items-center">
+    <div className="fixed inset-0 z-50 overflow-y-auto overscroll-contain-touch flex items-center justify-center bg-[#FAF8F5] p-4 py-6 select-none">
+      <div className="w-full max-w-sm flex flex-col items-center my-auto">
         {/* Top security icon badge */}
-        <div className="w-14 h-14 rounded-2xl bg-[#F4EDFA] border border-[#E9DFF2] flex items-center justify-center text-[#9678B6] mb-5 shadow-2xs">
-          {!hasPinSet ? <ShieldCheck size={28} /> : <Lock size={26} />}
+        <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#F4EDFA] border border-[#E9DFF2] flex items-center justify-center text-[#9678B6] mb-3.5 sm:mb-5 shadow-2xs">
+          {!hasPinSet ? <ShieldCheck size={26} /> : <Lock size={24} />}
         </div>
 
         {/* Title & Subtitle */}
-        <h1 className="text-xl font-bold text-[#2D2721] text-center tracking-tight mb-1.5">
+        <h1 className="text-lg sm:text-xl font-bold text-[#2D2721] text-center tracking-tight mb-1">
           {getTitle()}
         </h1>
-        <p className="text-xs text-[#7A7267] text-center max-w-xs mb-7 leading-relaxed">
+        <p className="text-xs text-[#7A7267] text-center max-w-xs mb-5 sm:mb-7 leading-relaxed">
           {getSubtitle()}
         </p>
 
@@ -166,14 +166,14 @@ export const PinScreen: React.FC = () => {
         </div>
 
         {/* Tactile Numeric Keypad */}
-        <div className="grid grid-cols-3 gap-3.5 w-full max-w-[280px]">
+        <div className="grid grid-cols-3 gap-2.5 sm:gap-3.5 w-full max-w-[280px]">
           {['1', '2', '3', '4', '5', '6', '7', '8', '9'].map((digit) => (
             <button
               key={digit}
               type="button"
               onClick={() => handleDigit(digit)}
               disabled={isVerifying}
-              className="h-15 rounded-2xl bg-white border border-[#EDE8DF] text-xl font-semibold text-[#2D2721] tabular-nums shadow-2xs hover:bg-[#F9F7F3] active:bg-[#F1ECE3] active:scale-95 transition-all flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9678B6]"
+              className="h-13 sm:h-15 rounded-2xl bg-white border border-[#EDE8DF] text-xl font-semibold text-[#2D2721] tabular-nums shadow-2xs hover:bg-[#F9F7F3] active:bg-[#F1ECE3] active:scale-95 transition-all flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9678B6]"
             >
               {digit}
             </button>
@@ -184,7 +184,7 @@ export const PinScreen: React.FC = () => {
             type="button"
             onClick={handleClear}
             disabled={isVerifying || currentInput.length === 0}
-            className="h-15 rounded-2xl bg-white/70 border border-[#EDE8DF] text-sm font-semibold text-[#7A7267] shadow-2xs hover:bg-white hover:text-[#2D2721] active:scale-95 transition-all flex items-center justify-center gap-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9678B6] disabled:opacity-40"
+            className="h-13 sm:h-15 rounded-2xl bg-white/70 border border-[#EDE8DF] text-sm font-semibold text-[#7A7267] shadow-2xs hover:bg-white hover:text-[#2D2721] active:scale-95 transition-all flex items-center justify-center gap-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9678B6] disabled:opacity-40"
             title="Limpiar código"
           >
             <RotateCcw size={16} />
@@ -196,7 +196,7 @@ export const PinScreen: React.FC = () => {
             type="button"
             onClick={() => handleDigit('0')}
             disabled={isVerifying}
-            className="h-15 rounded-2xl bg-white border border-[#EDE8DF] text-xl font-semibold text-[#2D2721] tabular-nums shadow-2xs hover:bg-[#F9F7F3] active:bg-[#F1ECE3] active:scale-95 transition-all flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9678B6]"
+            className="h-13 sm:h-15 rounded-2xl bg-white border border-[#EDE8DF] text-xl font-semibold text-[#2D2721] tabular-nums shadow-2xs hover:bg-[#F9F7F3] active:bg-[#F1ECE3] active:scale-95 transition-all flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9678B6]"
           >
             0
           </button>
@@ -206,7 +206,7 @@ export const PinScreen: React.FC = () => {
             type="button"
             onClick={handleDelete}
             disabled={isVerifying || currentInput.length === 0}
-            className="h-15 rounded-2xl bg-white/70 border border-[#EDE8DF] text-[#7A7267] shadow-2xs hover:bg-white hover:text-[#2D2721] active:scale-95 transition-all flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9678B6] disabled:opacity-40"
+            className="h-13 sm:h-15 rounded-2xl bg-white/70 border border-[#EDE8DF] text-[#7A7267] shadow-2xs hover:bg-white hover:text-[#2D2721] active:scale-95 transition-all flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9678B6] disabled:opacity-40"
             title="Borrar último dígito"
           >
             <Delete size={20} />

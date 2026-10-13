@@ -90,28 +90,26 @@ export const Dashboard: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] pb-24 sm:pb-16 text-[#2D2721]">
+    <div className="min-h-screen min-h-[100dvh] bg-[#FAF8F5] pb-32 sm:pb-20 text-[#2D2721] w-full max-w-full overflow-x-clip">
       {/* 1. TOP NAVIGATION BAR */}
-      <header className="sticky top-0 z-40 bg-[#FAF8F5]/90 backdrop-blur-md border-b border-[#EDE8DF]">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
+      <header className="sticky top-0 z-40 bg-[#FAF8F5]/95 backdrop-blur-md border-b border-[#EDE8DF]">
+        <div className="max-w-5xl mx-auto px-2.5 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-1 sm:gap-3">
           {/* Logo & Name */}
-          <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-[#F4EDFA] border border-[#E9DFF2] text-[#9678B6] flex items-center justify-center shadow-2xs">
-              <Wallet size={18} />
+          <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
+            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-[#F4EDFA] border border-[#E9DFF2] text-[#9678B6] flex items-center justify-center shadow-2xs shrink-0">
+              <Wallet size={16} />
             </div>
-            <div>
-              <h1 className="text-base sm:text-lg font-extrabold tracking-tight text-[#2D2721] flex items-center gap-1.5">
-                <span>Mis Finanzas</span>
-              </h1>
-            </div>
+            <h1 className="text-xs sm:text-lg font-extrabold tracking-tight text-[#2D2721] truncate">
+              Mis Finanzas
+            </h1>
           </div>
 
           {/* Quick Actions */}
-          <div className="flex items-center gap-1.5 sm:gap-2">
+          <div className="flex items-center gap-1 sm:gap-2 shrink-0">
             <button
               type="button"
               onClick={() => setIsCategoriesModalOpen(true)}
-              className="px-2.5 sm:px-3 py-1.5 rounded-xl border border-[#EDE8DF] bg-white hover:bg-[#F9F7F3] text-xs font-semibold text-[#5A5247] shadow-2xs flex items-center gap-1.5 transition-all"
+              className="w-8 h-8 sm:w-auto sm:px-3 sm:py-1.5 rounded-xl border border-[#EDE8DF] bg-white hover:bg-[#F9F7F3] text-xs font-semibold text-[#5A5247] shadow-2xs flex items-center justify-center gap-1.5 transition-all"
               title="Administrar Categorías"
             >
               <Tag size={14} className="text-[#9678B6]" />
@@ -121,7 +119,7 @@ export const Dashboard: React.FC = () => {
             <button
               type="button"
               onClick={() => setIsBudgetsModalOpen(true)}
-              className="px-2.5 sm:px-3 py-1.5 rounded-xl border border-[#EDE8DF] bg-white hover:bg-[#F9F7F3] text-xs font-semibold text-[#5A5247] shadow-2xs flex items-center gap-1.5 transition-all"
+              className="w-8 h-8 sm:w-auto sm:px-3 sm:py-1.5 rounded-xl border border-[#EDE8DF] bg-white hover:bg-[#F9F7F3] text-xs font-semibold text-[#5A5247] shadow-2xs flex items-center justify-center gap-1.5 transition-all"
               title="Administrar Presupuestos"
             >
               <Target size={14} className="text-[#9678B6]" />
@@ -131,30 +129,31 @@ export const Dashboard: React.FC = () => {
             <button
               type="button"
               onClick={() => handleOpenAddTx('gasto')}
-              className="px-3 sm:px-3.5 py-1.5 rounded-xl bg-[#9678B6] hover:bg-[#8666A6] active:bg-[#785996] text-white text-xs font-bold shadow-xs flex items-center gap-1 transition-all"
+              className="w-8 h-8 sm:w-auto sm:px-3.5 sm:py-1.5 rounded-xl bg-[#9678B6] hover:bg-[#8666A6] active:bg-[#785996] text-white text-xs font-bold shadow-xs flex items-center justify-center gap-1 transition-all"
+              title="Nuevo movimiento"
             >
               <Plus size={15} />
-              <span className="hidden xs:inline">Nuevo</span>
+              <span className="hidden sm:inline">Nuevo</span>
             </button>
 
             {/* Lock with PIN button */}
             <button
               type="button"
               onClick={lockApp}
-              className="w-9 h-9 rounded-xl border border-[#EDE8DF] bg-white hover:bg-[#F4EDFA] text-[#7A7267] hover:text-[#9678B6] flex items-center justify-center shadow-2xs transition-colors"
+              className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl border border-[#EDE8DF] bg-white hover:bg-[#F4EDFA] text-[#7A7267] hover:text-[#9678B6] flex items-center justify-center shadow-2xs transition-colors"
               title="Bloquear con PIN"
             >
-              <Lock size={15} />
+              <Lock size={14} />
             </button>
 
             {/* User logout action */}
             <button
               type="button"
               onClick={signOutUser}
-              className="w-9 h-9 rounded-xl border border-[#EDE8DF] bg-white hover:bg-[#FDECE8] text-[#7A7267] hover:text-[#8B2E2E] flex items-center justify-center shadow-2xs transition-colors"
+              className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl border border-[#EDE8DF] bg-white hover:bg-[#FDECE8] text-[#7A7267] hover:text-[#8B2E2E] flex items-center justify-center shadow-2xs transition-colors"
               title={`Cerrar sesión (${user?.email || ''})`}
             >
-              <LogOut size={15} />
+              <LogOut size={14} />
             </button>
           </div>
         </div>
@@ -199,14 +198,14 @@ export const Dashboard: React.FC = () => {
         </div>
 
         {/* 3. MAIN BALANCE CARD */}
-        <div className="bg-white rounded-3xl border border-[#EDE8DF] p-6 sm:p-7 shadow-xs relative overflow-hidden">
+        <div className="bg-white rounded-3xl border border-[#EDE8DF] p-5 sm:p-7 shadow-xs relative overflow-hidden">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <span className="text-xs font-semibold uppercase tracking-wider text-[#7A7267] flex items-center gap-1.5">
                 <TrendingUp size={15} className="text-[#9678B6]" />
                 Balance Acumulado del Mes
               </span>
-              <div className="flex items-baseline gap-2 mt-1.5">
+              <div className="flex items-baseline gap-2 mt-1.5 flex-wrap">
                 <span className="text-3xl sm:text-4xl font-extrabold text-[#2D2721] tabular-nums tracking-tight">
                   {formatCurrency(balanceAcumulado)}
                 </span>
@@ -225,11 +224,11 @@ export const Dashboard: React.FC = () => {
               </p>
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="grid grid-cols-3 gap-2 w-full sm:w-auto sm:flex sm:items-center">
               <button
                 type="button"
                 onClick={() => handleOpenAddTx('gasto')}
-                className="px-3.5 py-2 rounded-xl bg-[#FDECE8] text-[#8B2E2E] hover:bg-[#FAD9D3] text-xs font-bold transition-colors flex items-center gap-1"
+                className="px-2.5 sm:px-3.5 py-2 rounded-xl bg-[#FDECE8] text-[#8B2E2E] hover:bg-[#FAD9D3] text-xs font-bold transition-colors flex items-center justify-center gap-1"
               >
                 <Plus size={14} />
                 <span>Gasto</span>
@@ -237,7 +236,7 @@ export const Dashboard: React.FC = () => {
               <button
                 type="button"
                 onClick={() => handleOpenAddTx('ingreso')}
-                className="px-3.5 py-2 rounded-xl bg-[#EBF1E6] text-[#3B4B2E] hover:bg-[#E0EBD8] text-xs font-bold transition-colors flex items-center gap-1"
+                className="px-2.5 sm:px-3.5 py-2 rounded-xl bg-[#EBF1E6] text-[#3B4B2E] hover:bg-[#E0EBD8] text-xs font-bold transition-colors flex items-center justify-center gap-1"
               >
                 <Plus size={14} />
                 <span>Ingreso</span>
@@ -245,7 +244,7 @@ export const Dashboard: React.FC = () => {
               <button
                 type="button"
                 onClick={() => handleOpenAddTx('ahorro')}
-                className="px-3.5 py-2 rounded-xl bg-[#FCF6E5] text-[#614E15] hover:bg-[#F8EFCF] text-xs font-bold transition-colors flex items-center gap-1"
+                className="px-2.5 sm:px-3.5 py-2 rounded-xl bg-[#FCF6E5] text-[#614E15] hover:bg-[#F8EFCF] text-xs font-bold transition-colors flex items-center justify-center gap-1"
               >
                 <Plus size={14} />
                 <span>Ahorro</span>
@@ -322,7 +321,7 @@ export const Dashboard: React.FC = () => {
 
         {/* 5. MONTHLY BUDGET TRACKING BAR */}
         <div className="bg-white rounded-3xl border border-[#EDE8DF] p-5 sm:p-6 shadow-2xs">
-          <div className="flex items-center justify-between gap-3 mb-2.5">
+          <div className="flex flex-wrap sm:flex-nowrap items-center justify-between gap-2.5 sm:gap-3 mb-2.5">
             <div className="flex items-center gap-2">
               <Target size={16} className="text-[#9678B6]" />
               <h3 className="text-xs font-bold text-[#2D2721] uppercase tracking-wider">
@@ -401,12 +400,12 @@ export const Dashboard: React.FC = () => {
             </div>
           </div>
 
-          {/* Interactive Filter Tabs */}
-          <div className="flex items-center gap-1.5 p-1 bg-[#F5EFE6] rounded-2xl mb-4 max-w-md">
+          {/* Interactive Filter Tabs - scrollable horizontally without wrapping or shrinking */}
+          <div className="flex items-center gap-1.5 p-1 bg-[#F5EFE6] rounded-2xl mb-4 w-full sm:max-w-md overflow-x-auto overscroll-contain-touch">
             <button
               type="button"
               onClick={() => setActiveTab('all')}
-              className={`flex-1 py-1.5 text-xs font-semibold rounded-xl transition-all ${
+              className={`flex-1 py-1.5 px-2 text-xs font-semibold rounded-xl transition-all whitespace-nowrap text-center ${
                 activeTab === 'all'
                   ? 'bg-white text-[#2D2721] shadow-2xs'
                   : 'text-[#7A7267] hover:text-[#2D2721]'
@@ -417,7 +416,7 @@ export const Dashboard: React.FC = () => {
             <button
               type="button"
               onClick={() => setActiveTab('gasto')}
-              className={`flex-1 py-1.5 text-xs font-semibold rounded-xl transition-all ${
+              className={`flex-1 py-1.5 px-2 text-xs font-semibold rounded-xl transition-all whitespace-nowrap text-center ${
                 activeTab === 'gasto'
                   ? 'bg-[#FDECE8] text-[#8B2E2E] shadow-2xs'
                   : 'text-[#7A7267] hover:text-[#2D2721]'
@@ -428,7 +427,7 @@ export const Dashboard: React.FC = () => {
             <button
               type="button"
               onClick={() => setActiveTab('ingreso')}
-              className={`flex-1 py-1.5 text-xs font-semibold rounded-xl transition-all ${
+              className={`flex-1 py-1.5 px-2 text-xs font-semibold rounded-xl transition-all whitespace-nowrap text-center ${
                 activeTab === 'ingreso'
                   ? 'bg-[#EBF1E6] text-[#3B4B2E] shadow-2xs'
                   : 'text-[#7A7267] hover:text-[#2D2721]'
@@ -439,7 +438,7 @@ export const Dashboard: React.FC = () => {
             <button
               type="button"
               onClick={() => setActiveTab('ahorro')}
-              className={`flex-1 py-1.5 text-xs font-semibold rounded-xl transition-all ${
+              className={`flex-1 py-1.5 px-2 text-xs font-semibold rounded-xl transition-all whitespace-nowrap text-center ${
                 activeTab === 'ahorro'
                   ? 'bg-[#FCF6E5] text-[#614E15] shadow-2xs'
                   : 'text-[#7A7267] hover:text-[#2D2721]'
@@ -468,41 +467,41 @@ export const Dashboard: React.FC = () => {
               return (
                 <div
                   key={tx.id}
-                  className="p-3.5 rounded-2xl border border-[#EDE8DF] bg-white hover:border-[#DCD5C9] transition-all flex items-center justify-between gap-3 shadow-2xs"
+                  className="p-3 sm:p-3.5 rounded-2xl border border-[#EDE8DF] bg-white hover:border-[#DCD5C9] transition-all flex items-center justify-between gap-2.5 sm:gap-3 shadow-2xs"
                 >
-                  <div className="flex items-center gap-3 min-w-0 flex-1">
-                    <span className="text-2xl p-1.5 rounded-xl bg-[#FAF8F5] shrink-0 border border-[#F0EBE1]">
+                  <div className="flex items-center gap-2.5 sm:gap-3 min-w-0 flex-1">
+                    <span className="text-xl sm:text-2xl p-1.5 rounded-xl bg-[#FAF8F5] shrink-0 border border-[#F0EBE1]">
                       {tx.category_icon || '💰'}
                     </span>
 
                     <div className="min-w-0 flex-1">
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <h4 className="text-xs font-bold text-[#2D2721] truncate">
+                      <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
+                        <h4 className="text-xs font-bold text-[#2D2721] truncate max-w-[130px] sm:max-w-none">
                           {tx.category_name}
                         </h4>
                         {tx.subcategory && (
-                          <span className="text-[10px] text-[#7A7267] bg-[#F5EFE6] px-2 py-0.5 rounded-md truncate max-w-[140px]">
+                          <span className="text-[10px] text-[#7A7267] bg-[#F5EFE6] px-1.5 py-0.5 rounded-md truncate max-w-[100px] sm:max-w-[140px]">
                             {tx.subcategory}
                           </span>
                         )}
                       </div>
 
-                      <div className="flex items-center gap-2 text-[11px] text-[#8E867B] mt-0.5">
-                        <span className="flex items-center gap-1">
+                      <div className="flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-[11px] text-[#8E867B] mt-0.5 flex-wrap">
+                        <span className="flex items-center gap-1 shrink-0">
                           <Calendar size={11} />
                           {formatDateShort(tx.date)}
                         </span>
                         {tx.note && (
                           <>
                             <span>·</span>
-                            <span className="truncate italic max-w-[180px]">{tx.note}</span>
+                            <span className="truncate italic max-w-[110px] sm:max-w-[180px]">{tx.note}</span>
                           </>
                         )}
                       </div>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-3 shrink-0">
+                  <div className="flex items-center gap-2 sm:gap-3 shrink-0">
                     <span className={`text-xs sm:text-sm font-extrabold tabular-nums ${amountColor}`}>
                       {sign}
                       {formatCurrency(tx.amount)}
@@ -511,7 +510,7 @@ export const Dashboard: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => setDeleteTargetTxId(tx.id)}
-                      className="w-7 h-7 rounded-lg flex items-center justify-center text-[#9A9184] hover:text-[#8B2E2E] hover:bg-[#FDECE8] transition-colors"
+                      className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center text-[#9A9184] hover:text-[#8B2E2E] hover:bg-[#FDECE8] transition-colors"
                       title="Eliminar movimiento"
                     >
                       <Trash2 size={14} />
@@ -541,7 +540,7 @@ export const Dashboard: React.FC = () => {
       <button
         type="button"
         onClick={() => handleOpenAddTx('gasto')}
-        className="fixed bottom-6 right-6 z-30 w-14 h-14 rounded-full bg-[#9678B6] hover:bg-[#8666A6] active:bg-[#785996] text-white shadow-lg flex items-center justify-center transition-transform hover:scale-105 active:scale-95 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#9678B6]/30"
+        className="fixed bottom-6 right-5 sm:bottom-8 sm:right-8 z-30 w-14 h-14 rounded-full bg-[#9678B6] hover:bg-[#8666A6] active:bg-[#785996] text-white shadow-lg flex items-center justify-center transition-transform hover:scale-105 active:scale-95 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#9678B6]/30"
         title="Agregar nuevo movimiento"
       >
         <Plus size={26} />

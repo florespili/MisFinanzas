@@ -105,11 +105,11 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/35 backdrop-blur-xs">
-      <div className="bg-white w-full sm:max-w-lg rounded-t-3xl sm:rounded-3xl border border-[#EDE8DF] shadow-2xl max-h-[92vh] flex flex-col overflow-hidden animate-slide-up sm:animate-scale-up">
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/40 backdrop-blur-xs overflow-y-auto overscroll-contain-touch">
+      <div className="bg-white w-full sm:max-w-lg rounded-t-3xl sm:rounded-3xl border border-[#EDE8DF] shadow-2xl max-h-[92dvh] sm:max-h-[88vh] flex flex-col overflow-hidden animate-slide-up sm:animate-scale-up">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 pt-5 pb-4 border-b border-[#F0EBE1]">
-          <h2 className="text-lg font-bold text-[#2D2721]">Nuevo Movimiento</h2>
+        <div className="flex items-center justify-between px-5 pt-4 pb-3 sm:px-6 sm:pt-5 sm:pb-4 border-b border-[#F0EBE1] shrink-0">
+          <h2 className="text-base sm:text-lg font-bold text-[#2D2721]">Nuevo Movimiento</h2>
           <button
             type="button"
             onClick={onClose}
@@ -119,9 +119,10 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto px-6 py-4 space-y-5">
-          {/* 1. Type Tabs */}
-          <div className="grid grid-cols-3 gap-2 p-1 bg-[#F5EFE6] rounded-2xl">
+        <form onSubmit={handleSubmit} className="flex-1 flex flex-col min-h-0 overflow-hidden">
+          <div className="flex-1 overflow-y-auto overscroll-contain-touch px-4 sm:px-6 py-4 space-y-4 min-h-0">
+            {/* 1. Type Tabs */}
+            <div className="grid grid-cols-3 gap-2 p-1 bg-[#F5EFE6] rounded-2xl">
             <button
               type="button"
               onClick={() => setType('gasto')}
@@ -184,31 +185,31 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
             </p>
           )}
 
-          {/* 3. Categories Grid */}
-          <div>
-            <label className="block text-xs font-semibold text-[#5A5247] mb-2">
-              Categoría
-            </label>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 max-h-44 overflow-y-auto pr-1">
-              {filteredCategories.map((cat) => {
-                const isSelected = selectedCategoryId === cat.id;
-                return (
-                  <button
-                    key={cat.id}
-                    type="button"
-                    onClick={() => handleCategorySelect(cat.id)}
-                    className={`flex items-center gap-2 p-2.5 rounded-xl border text-left transition-all ${
-                      isSelected
-                        ? 'border-[#9678B6] bg-[#F4EDFA] text-[#2D2721] shadow-2xs'
-                        : 'border-[#EDE8DF] bg-white text-[#5A5247] hover:bg-[#FAF8F5]'
-                    }`}
-                  >
-                    <span className="text-xl shrink-0">{cat.icon_or_image_url}</span>
-                    <span className="text-xs font-semibold truncate">{cat.name}</span>
-                  </button>
-                );
-              })}
-            </div>
+            {/* 3. Categories Grid - natural layout without inner scroll trap */}
+            <div>
+              <label className="block text-xs font-semibold text-[#5A5247] mb-2">
+                Categoría
+              </label>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-2.5">
+                {filteredCategories.map((cat) => {
+                  const isSelected = selectedCategoryId === cat.id;
+                  return (
+                    <button
+                      key={cat.id}
+                      type="button"
+                      onClick={() => handleCategorySelect(cat.id)}
+                      className={`flex items-center gap-2 p-2 sm:p-2.5 rounded-xl border text-left transition-all ${
+                        isSelected
+                          ? 'border-[#9678B6] bg-[#F4EDFA] text-[#2D2721] shadow-2xs'
+                          : 'border-[#EDE8DF] bg-white text-[#5A5247] hover:bg-[#FAF8F5]'
+                      }`}
+                    >
+                      <span className="text-lg sm:text-xl shrink-0">{cat.icon_or_image_url}</span>
+                      <span className="text-xs font-semibold truncate">{cat.name}</span>
+                    </button>
+                  );
+                })}
+              </div>
             {filteredCategories.length === 0 && (
               <p className="text-xs text-[#8E867B] italic text-center py-3">
                 No hay categorías de este tipo. Puedes crearlas en el botón "Categorías".
@@ -291,9 +292,10 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
               </div>
             </div>
           </div>
+        </div>
 
-          {/* Action buttons */}
-          <div className="pt-2 flex items-center justify-end gap-3 border-t border-[#F0EBE1]">
+        {/* Action buttons (fixed footer outside scroll container) */}
+        <div className="p-3 sm:p-4 border-t border-[#F0EBE1] bg-white shrink-0 flex items-center justify-end gap-3">
             <button
               type="button"
               onClick={onClose}

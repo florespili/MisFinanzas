@@ -106,8 +106,8 @@ export const AuthScreen: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] flex flex-col items-center justify-center p-4 sm:p-6">
-      <div className="w-full max-w-md">
+    <div className="min-h-[100dvh] bg-[#FAF8F5] flex flex-col items-center justify-center p-4 sm:p-6 py-8 overflow-y-auto overscroll-contain-touch">
+      <div className="w-full max-w-md my-auto">
         {/* Brand Header */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-[#F4EDFA] border border-[#E9DFF2] text-[#9678B6] mb-3 shadow-2xs">

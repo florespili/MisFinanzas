@@ -87,22 +87,22 @@ export const DetailViewModal: React.FC<DetailViewModalProps> = ({
 
   return (
     <>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/35 backdrop-blur-xs">
-        <div className="bg-white w-full max-w-2xl rounded-3xl border border-[#EDE8DF] shadow-2xl max-h-[92vh] flex flex-col overflow-hidden animate-scale-up">
+      <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/40 backdrop-blur-xs overflow-y-auto overscroll-contain-touch">
+        <div className="bg-white w-full sm:max-w-2xl rounded-t-3xl sm:rounded-3xl border border-[#EDE8DF] shadow-2xl max-h-[92dvh] sm:max-h-[88vh] flex flex-col overflow-hidden animate-slide-up sm:animate-scale-up">
           {/* Header with back button */}
-          <div className="flex items-center justify-between px-6 pt-5 pb-4 border-b border-[#F0EBE1]">
-            <div className="flex items-center gap-3">
+          <div className="flex items-center justify-between px-5 pt-4 pb-3 sm:px-6 sm:pt-5 sm:pb-4 border-b border-[#F0EBE1] shrink-0">
+            <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
               <button
                 type="button"
                 onClick={onClose}
-                className="w-9 h-9 rounded-full flex items-center justify-center text-[#7A7267] hover:bg-[#F5EFE6] transition-colors"
+                className="w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center text-[#7A7267] hover:bg-[#F5EFE6] transition-colors shrink-0"
                 title="Volver"
               >
-                <ArrowLeft size={20} />
+                <ArrowLeft size={18} />
               </button>
-              <div>
-                <h2 className="text-lg font-bold text-[#2D2721]">{config.title}</h2>
-                <p className="text-xs text-[#7A7267]">
+              <div className="min-w-0">
+                <h2 className="text-base sm:text-lg font-bold text-[#2D2721] truncate">{config.title}</h2>
+                <p className="text-xs text-[#7A7267] truncate">
                   {formatMonthYear(selectedYear, selectedMonth)}
                 </p>
               </div>
@@ -111,7 +111,7 @@ export const DetailViewModal: React.FC<DetailViewModalProps> = ({
             <button
               type="button"
               onClick={() => onOpenAddModal(type)}
-              className="px-3 py-1.5 rounded-xl bg-[#F4EDFA] hover:bg-[#E9DFF2] text-[#9678B6] font-bold text-xs flex items-center gap-1 transition-all"
+              className="px-3 py-1.5 rounded-xl bg-[#F4EDFA] hover:bg-[#E9DFF2] text-[#9678B6] font-bold text-xs flex items-center gap-1 transition-all shrink-0"
             >
               <Plus size={14} />
               <span>Nuevo</span>
@@ -119,12 +119,12 @@ export const DetailViewModal: React.FC<DetailViewModalProps> = ({
           </div>
 
           {/* Main Month Total Banner */}
-          <div className={`px-6 py-4 ${config.bgColor} border-b ${config.borderColor} flex items-center justify-between`}>
+          <div className={`px-5 py-3 sm:px-6 sm:py-4 ${config.bgColor} border-b ${config.borderColor} flex items-center justify-between shrink-0`}>
             <div>
               <span className="text-[11px] font-semibold text-[#5A5247] uppercase tracking-wider block">
                 {config.badgeText}
               </span>
-              <span className={`text-2xl sm:text-3xl font-extrabold ${config.accentColor} tabular-nums`}>
+              <span className={`text-xl sm:text-3xl font-extrabold ${config.accentColor} tabular-nums`}>
                 {formatCurrency(totalAmount)}
               </span>
             </div>
@@ -133,7 +133,7 @@ export const DetailViewModal: React.FC<DetailViewModalProps> = ({
             </div>
           </div>
 
-          <div className="flex-1 overflow-y-auto px-6 py-4 space-y-6">
+          <div className="flex-1 overflow-y-auto overscroll-contain-touch px-4 sm:px-6 py-4 space-y-6 min-h-0">
             {/* 1. Category Breakdown */}
             <div>
               <div className="flex items-center gap-2 mb-3">
@@ -253,7 +253,7 @@ export const DetailViewModal: React.FC<DetailViewModalProps> = ({
           </div>
 
           {/* Footer */}
-          <div className="p-4 bg-[#FAF8F5] border-t border-[#F0EBE1] flex justify-end">
+          <div className="p-3 sm:p-4 bg-[#FAF8F5] border-t border-[#F0EBE1] flex justify-end shrink-0">
             <button
               type="button"
               onClick={onClose}

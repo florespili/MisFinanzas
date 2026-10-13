@@ -44,16 +44,16 @@ export const BudgetsModal: React.FC<BudgetsModalProps> = ({ isOpen, onClose }) =
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/35 backdrop-blur-xs">
-      <div className="bg-white w-full max-w-lg rounded-3xl border border-[#EDE8DF] shadow-2xl max-h-[92vh] flex flex-col overflow-hidden animate-scale-up">
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/40 backdrop-blur-xs overflow-y-auto overscroll-contain-touch">
+      <div className="bg-white w-full sm:max-w-lg rounded-t-3xl sm:rounded-3xl border border-[#EDE8DF] shadow-2xl max-h-[92dvh] sm:max-h-[88vh] flex flex-col overflow-hidden animate-slide-up sm:animate-scale-up">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 pt-5 pb-4 border-b border-[#F0EBE1]">
+        <div className="flex items-center justify-between px-5 pt-4 pb-3 sm:px-6 sm:pt-5 sm:pb-4 border-b border-[#F0EBE1] shrink-0">
           <div className="flex items-center gap-2.5">
-            <div className="w-10 h-10 rounded-2xl bg-[#F4EDFA] text-[#9678B6] flex items-center justify-center">
-              <Target size={20} />
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-[#F4EDFA] text-[#9678B6] flex items-center justify-center shrink-0">
+              <Target size={18} />
             </div>
             <div>
-              <h2 className="text-lg font-bold text-[#2D2721]">Presupuestos Mensuales</h2>
+              <h2 className="text-base sm:text-lg font-bold text-[#2D2721]">Presupuestos Mensuales</h2>
               <p className="text-xs text-[#7A7267]">
                 Fija límites por categoría para cuidar tus finanzas este mes
               </p>
@@ -69,12 +69,12 @@ export const BudgetsModal: React.FC<BudgetsModalProps> = ({ isOpen, onClose }) =
         </div>
 
         {/* Total Budget Summary Header */}
-        <div className="px-6 py-3.5 bg-[#FAF8F5] border-b border-[#F0EBE1] flex items-center justify-between">
+        <div className="px-5 py-3 sm:px-6 sm:py-3.5 bg-[#FAF8F5] border-b border-[#F0EBE1] flex items-center justify-between shrink-0">
           <div>
             <span className="text-[11px] font-semibold text-[#8E867B] uppercase tracking-wider block">
               Límite Total Presupuestado
             </span>
-            <span className="text-base font-extrabold text-[#2D2721] tabular-nums">
+            <span className="text-sm sm:text-base font-extrabold text-[#2D2721] tabular-nums">
               {formatCurrency(totalBudgetLimit)}
             </span>
           </div>
@@ -82,14 +82,14 @@ export const BudgetsModal: React.FC<BudgetsModalProps> = ({ isOpen, onClose }) =
             <span className="text-[11px] font-semibold text-[#8E867B] uppercase tracking-wider block">
               Gastado este mes
             </span>
-            <span className="text-base font-extrabold text-[#8B2E2E] tabular-nums">
+            <span className="text-sm sm:text-base font-extrabold text-[#8B2E2E] tabular-nums">
               {formatCurrency(totalGastos)}
             </span>
           </div>
         </div>
 
         {/* Category Budget List */}
-        <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4">
+        <div className="flex-1 overflow-y-auto overscroll-contain-touch px-4 sm:px-6 py-4 space-y-4 min-h-0">
           {gastoCategories.map((cat) => {
             const limit = getCategoryLimit(cat.id);
             const spent = categorySpendingMap[cat.id] || 0;
@@ -151,11 +151,11 @@ export const BudgetsModal: React.FC<BudgetsModalProps> = ({ isOpen, onClose }) =
                 )}
 
                 {/* Limit input & Save */}
-                <div className="flex items-center gap-2 pt-1 border-t border-[#F5EFE6]">
-                  <span className="text-[11px] font-semibold text-[#8E867B]">
+                <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 pt-2 border-t border-[#F5EFE6]">
+                  <span className="text-[11px] font-semibold text-[#8E867B] shrink-0">
                     Límite mensual:
                   </span>
-                  <div className="relative flex-1">
+                  <div className="relative flex-1 min-w-[120px]">
                     <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-xs text-[#9A9184]">
                       $
                     </span>
@@ -178,7 +178,7 @@ export const BudgetsModal: React.FC<BudgetsModalProps> = ({ isOpen, onClose }) =
                   <button
                     type="button"
                     onClick={() => handleSaveCategoryLimit(cat.id)}
-                    className="px-3 py-1.5 bg-[#F4EDFA] hover:bg-[#E9DFF2] text-[#9678B6] font-bold text-xs rounded-xl border border-[#E9DFF2] transition-colors flex items-center gap-1 shrink-0"
+                    className="px-3 py-1.5 bg-[#F4EDFA] hover:bg-[#E9DFF2] text-[#9678B6] font-bold text-xs rounded-xl border border-[#E9DFF2] transition-colors flex items-center gap-1 shrink-0 ml-auto sm:ml-0"
                   >
                     {savedSuccess === cat.id ? <Check size={13} /> : null}
                     <span>{savedSuccess === cat.id ? 'Guardado' : 'Fijar'}</span>
@@ -196,7 +196,7 @@ export const BudgetsModal: React.FC<BudgetsModalProps> = ({ isOpen, onClose }) =
         </div>
 
         {/* Footer */}
-        <div className="p-4 bg-[#FAF8F5] border-t border-[#F0EBE1] flex justify-end">
+        <div className="p-3 sm:p-4 bg-[#FAF8F5] border-t border-[#F0EBE1] flex justify-end shrink-0">
           <button
             type="button"
             onClick={onClose}
