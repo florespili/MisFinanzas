@@ -18,8 +18,45 @@ export const AuthScreen: React.FC = () => {
       setError(null);
       await signInWithGoogle();
     } catch (err: unknown) {
-      console.error(err);
-      setError('No se pudo iniciar sesión con Google. Por favor intenta de nuevo.');
+      const fbError = err as { code?: string; message?: string };
+      const errorCode = fbError?.code || '';
+      const errorMessage = fbError?.message || (err instanceof Error ? err.message : String(err));
+
+      console.error('🔥 [Firebase Google Auth Error]:', {
+        code: errorCode,
+        message: errorMessage,
+        hostname: window.location.hostname,
+        origin: window.location.origin,
+        fullError: err,
+      });
+
+      if (errorCode === 'auth/unauthorized-domain') {
+        setError(
+          `Dominio no autorizado (auth/unauthorized-domain): El dominio "${window.location.hostname}" no está en la lista de dominios autorizados en Firebase (spartan-impact-9xtlg). Debes agregarlo en Firebase Console > Authentication > Settings > Authorized domains.`
+        );
+      } else if (errorCode === 'auth/popup-blocked') {
+        setError(
+          'Ventana emergente bloqueada (auth/popup-blocked): El navegador bloqueó la ventana de Google. Por favor permite los popups para este sitio.'
+        );
+      } else if (errorCode === 'auth/popup-closed-by-user') {
+        setError(
+          'Inicio cancelado (auth/popup-closed-by-user): Se cerró la ventana de Google antes de finalizar.'
+        );
+      } else if (errorCode === 'auth/cancelled-popup-request') {
+        setError(
+          'Solicitud cancelada (auth/cancelled-popup-request): Ya había otra ventana de inicio de sesión en curso.'
+        );
+      } else if (errorCode === 'auth/operation-not-allowed') {
+        setError(
+          'Proveedor no habilitado (auth/operation-not-allowed): El proveedor de Google no está habilitado en Firebase.'
+        );
+      } else if (errorCode === 'auth/network-request-failed') {
+        setError(
+          'Error de red (auth/network-request-failed): No se pudo conectar con Firebase. Revisa tu conexión a internet.'
+        );
+      } else {
+        setError(`Error al iniciar sesión con Google [${errorCode || 'error'}]: ${errorMessage}`);
+      }
     } finally {
       setLoading(false);
     }
