@@ -37,6 +37,7 @@ export const CategoriesModal: React.FC<CategoriesModalProps> = ({ isOpen, onClos
   const [emojiSearch, setEmojiSearch] = useState<string>('');
   const [emojiPickerOpen, setEmojiPickerOpen] = useState<boolean>(false);
   const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
+  const [isDeleting, setIsDeleting] = useState<boolean>(false);
 
   // Open Form for creating
   const handleOpenCreate = () => {
@@ -477,16 +478,25 @@ export const CategoriesModal: React.FC<CategoriesModalProps> = ({ isOpen, onClos
       <ConfirmModal
         isOpen={deleteTargetId !== null}
         title="¿Eliminar esta categoría?"
-        message="Se eliminará la categoría. Los movimientos existentes no se perderán pero ya no tendrán esta categoría asignada."
-        confirmLabel="Sí, eliminar"
+        message="Se eliminará la categoría de forma permanente. Los movimientos existentes no se perderán pero ya no tendrán esta categoría asignada."
+        confirmLabel={isDeleting ? 'Eliminando...' : 'Sí, eliminar'}
         cancelLabel="Cancelar"
         onConfirm={async () => {
-          if (deleteTargetId) {
-            await deleteCategory(deleteTargetId);
-            setDeleteTargetId(null);
+          if (deleteTargetId && !isDeleting) {
+            try {
+              setIsDeleting(true);
+              await deleteCategory(deleteTargetId);
+              setDeleteTargetId(null);
+            } catch (err) {
+              console.error('Error al eliminar categoría en Firestore:', err);
+            } finally {
+              setIsDeleting(false);
+            }
           }
         }}
-        onCancel={() => setDeleteTargetId(null)}
+        onCancel={() => {
+          if (!isDeleting) setDeleteTargetId(null);
+        }}
       />
     </>
   );

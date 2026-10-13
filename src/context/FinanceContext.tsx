@@ -3,6 +3,7 @@ import {
   collection,
   onSnapshot,
   doc,
+  getDoc,
   addDoc,
   deleteDoc,
   updateDoc,
@@ -92,24 +93,45 @@ export const FinanceProvider: React.FC<{ children: React.ReactNode }> = ({ child
           });
         });
 
-        // Seed initial categories if totally empty
+        // Always update categories state with actual snapshot data
+        setCategories(loadedCats);
+
+        // One-time initial seeding for brand new users only
         if (loadedCats.length === 0 && !snapshot.metadata.hasPendingWrites) {
-          try {
-            const batch = writeBatch(db);
-            INITIAL_CATEGORIES.forEach((cat) => {
-              const newDocRef = doc(collection(db, 'users', userId, 'categories'));
-              batch.set(newDocRef, {
-                ...cat,
-                created_at: new Date().toISOString(),
-                user_id: userId,
-              });
-            });
-            await batch.commit();
-          } catch (e) {
-            console.warn('Could not seed default categories:', e);
+          const localInitKey = `cat_seeded_${userId}`;
+          const isLocallyInit = localStorage.getItem(localInitKey) === 'true';
+
+          if (!isLocallyInit) {
+            try {
+              const initDocRef = doc(db, 'users', userId, 'config', 'init');
+              const initSnap = await getDoc(initDocRef);
+              const alreadySeeded = initSnap.exists() && initSnap.data()?.categories_seeded === true;
+
+              if (!alreadySeeded) {
+                // First time ever: seed defaults and mark as initialized
+                const batch = writeBatch(db);
+                INITIAL_CATEGORIES.forEach((cat) => {
+                  const newDocRef = doc(collection(db, 'users', userId, 'categories'));
+                  batch.set(newDocRef, {
+                    ...cat,
+                    created_at: new Date().toISOString(),
+                    user_id: userId,
+                  });
+                });
+                batch.set(initDocRef, {
+                  categories_seeded: true,
+                  seeded_at: new Date().toISOString(),
+                });
+                await batch.commit();
+                localStorage.setItem(localInitKey, 'true');
+              } else {
+                // User already initialized in the past and intentionally has 0 categories
+                localStorage.setItem(localInitKey, 'true');
+              }
+            } catch (e) {
+              console.warn('Could not check or seed default categories:', e);
+            }
           }
-        } else {
-          setCategories(loadedCats);
         }
       },
       (error) => {
@@ -292,13 +314,15 @@ export const FinanceProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
   const addCategory = async (data: Omit<Category, 'id'>) => {
     if (!user) return;
+    localStorage.setItem(`cat_seeded_${user.uid}`, 'true');
     try {
       const catCollectionRef = collection(db, 'users', user.uid, 'categories');
-      await addDoc(catCollectionRef, {
+      const docRef = await addDoc(catCollectionRef, {
         ...data,
         created_at: new Date().toISOString(),
         user_id: user.uid,
       });
+      setCategories((prev) => [...prev, { id: docRef.id, ...data, user_id: user.uid }]);
     } catch (err) {
       handleFirestoreError(err, OperationType.CREATE, `users/${user.uid}/categories`);
     }
@@ -306,9 +330,11 @@ export const FinanceProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
   const updateCategory = async (id: string, data: Partial<Category>) => {
     if (!user) return;
+    localStorage.setItem(`cat_seeded_${user.uid}`, 'true');
     try {
       const docRef = doc(db, 'users', user.uid, 'categories', id);
       await updateDoc(docRef, data);
+      setCategories((prev) => prev.map((c) => (c.id === id ? { ...c, ...data } : c)));
     } catch (err) {
       handleFirestoreError(err, OperationType.UPDATE, `users/${user.uid}/categories/${id}`);
     }
@@ -316,9 +342,11 @@ export const FinanceProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
   const deleteCategory = async (id: string) => {
     if (!user) return;
+    localStorage.setItem(`cat_seeded_${user.uid}`, 'true');
     try {
       const docRef = doc(db, 'users', user.uid, 'categories', id);
       await deleteDoc(docRef);
+      setCategories((prev) => prev.filter((c) => c.id !== id));
     } catch (err) {
       handleFirestoreError(err, OperationType.DELETE, `users/${user.uid}/categories/${id}`);
     }
