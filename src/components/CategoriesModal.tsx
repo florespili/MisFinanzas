@@ -38,6 +38,7 @@ export const CategoriesModal: React.FC<CategoriesModalProps> = ({ isOpen, onClos
   const [emojiPickerOpen, setEmojiPickerOpen] = useState<boolean>(false);
   const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
+  const [isSaving, setIsSaving] = useState<boolean>(false);
 
   // Open Form for creating
   const handleOpenCreate = () => {
@@ -87,25 +88,31 @@ export const CategoriesModal: React.FC<CategoriesModalProps> = ({ isOpen, onClos
 
   const handleSaveCategory = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name.trim()) return;
+    if (!name.trim() || isSaving) return;
 
-    if (editingCategory) {
-      await updateCategory(editingCategory.id, {
-        name: name.trim(),
-        type,
-        icon_or_image_url: selectedIcon,
-        subcategories,
-      });
-    } else {
-      await addCategory({
-        name: name.trim(),
-        type,
-        icon_or_image_url: selectedIcon,
-        subcategories,
-      });
+    try {
+      setIsSaving(true);
+      if (editingCategory) {
+        await updateCategory(editingCategory.id, {
+          name: name.trim(),
+          type,
+          icon_or_image_url: selectedIcon,
+          subcategories,
+        });
+      } else {
+        await addCategory({
+          name: name.trim(),
+          type,
+          icon_or_image_url: selectedIcon,
+          subcategories,
+        });
+      }
+      setIsFormOpen(false);
+    } catch (err) {
+      console.error('Error al guardar categoría:', err);
+    } finally {
+      setIsSaving(false);
     }
-
-    setIsFormOpen(false);
   };
 
   // Filter emojis by search
@@ -387,7 +394,7 @@ export const CategoriesModal: React.FC<CategoriesModalProps> = ({ isOpen, onClos
                       <span className="text-[10px] font-bold text-[#8E867B] uppercase tracking-wider block mb-1">
                         {group.category}
                       </span>
-                      <div className="grid grid-cols-8 gap-1.5">
+                      <div className="grid grid-cols-6 sm:grid-cols-8 gap-1.5">
                         {group.items.map((item, idx) => (
                           <button
                             key={idx}
@@ -472,16 +479,18 @@ export const CategoriesModal: React.FC<CategoriesModalProps> = ({ isOpen, onClos
                 <button
                   type="button"
                   onClick={() => setIsFormOpen(false)}
-                  className="px-4 py-2 text-xs font-semibold text-[#7A7267] hover:bg-[#F5EFE6] rounded-xl transition-colors"
+                  disabled={isSaving}
+                  className="px-4 py-2 text-xs font-semibold text-[#7A7267] hover:bg-[#F5EFE6] rounded-xl transition-colors disabled:opacity-50"
                 >
                   Volver al listado
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2.5 bg-[#9678B6] hover:bg-[#8666A6] active:bg-[#785996] text-white text-xs font-bold rounded-xl shadow-xs transition-all flex items-center gap-1.5"
+                  disabled={isSaving}
+                  className="px-5 py-2.5 bg-[#9678B6] hover:bg-[#8666A6] active:bg-[#785996] text-white text-xs font-bold rounded-xl shadow-xs transition-all flex items-center gap-1.5 disabled:opacity-50 disabled:pointer-events-none"
                 >
                   <Check size={16} />
-                  <span>{editingCategory ? 'Guardar Cambios' : 'Crear Categoría'}</span>
+                  <span>{isSaving ? 'Guardando...' : editingCategory ? 'Guardar Cambios' : 'Crear Categoría'}</span>
                 </button>
               </div>
             </form>

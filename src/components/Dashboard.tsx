@@ -93,13 +93,13 @@ export const Dashboard: React.FC = () => {
     <div className="min-h-screen min-h-[100dvh] bg-[#FAF8F5] pb-32 sm:pb-20 text-[#2D2721] w-full max-w-full overflow-x-clip">
       {/* 1. TOP NAVIGATION BAR */}
       <header className="sticky top-0 z-40 bg-[#FAF8F5]/95 backdrop-blur-md border-b border-[#EDE8DF]">
-        <div className="max-w-5xl mx-auto px-2.5 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-1 sm:gap-3">
+        <div className="max-w-5xl mx-auto px-2 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-1 sm:gap-3">
           {/* Logo & Name */}
-          <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
-            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-[#F4EDFA] border border-[#E9DFF2] text-[#9678B6] flex items-center justify-center shadow-2xs shrink-0">
-              <Wallet size={16} />
+          <div className="flex items-center gap-1.5 sm:gap-2 min-w-0 shrink">
+            <div className="w-7.5 h-7.5 sm:w-9 sm:h-9 rounded-xl bg-[#F4EDFA] border border-[#E9DFF2] text-[#9678B6] flex items-center justify-center shadow-2xs shrink-0">
+              <Wallet size={15} />
             </div>
-            <h1 className="text-xs sm:text-lg font-extrabold tracking-tight text-[#2D2721] truncate">
+            <h1 className="text-xs sm:text-base font-extrabold tracking-tight text-[#2D2721] truncate max-w-[80px] min-[360px]:max-w-none">
               Mis Finanzas
             </h1>
           </div>
@@ -109,30 +109,30 @@ export const Dashboard: React.FC = () => {
             <button
               type="button"
               onClick={() => setIsCategoriesModalOpen(true)}
-              className="w-8 h-8 sm:w-auto sm:px-3 sm:py-1.5 rounded-xl border border-[#EDE8DF] bg-white hover:bg-[#F9F7F3] text-xs font-semibold text-[#5A5247] shadow-2xs flex items-center justify-center gap-1.5 transition-all"
+              className="w-7.5 h-7.5 sm:w-auto sm:px-3 sm:py-1.5 rounded-xl border border-[#EDE8DF] bg-white hover:bg-[#F9F7F3] text-xs font-semibold text-[#5A5247] shadow-2xs flex items-center justify-center gap-1.5 transition-all shrink-0"
               title="Administrar Categorías"
             >
-              <Tag size={14} className="text-[#9678B6]" />
+              <Tag size={13} className="text-[#9678B6]" />
               <span className="hidden sm:inline">Categorías</span>
             </button>
 
             <button
               type="button"
               onClick={() => setIsBudgetsModalOpen(true)}
-              className="w-8 h-8 sm:w-auto sm:px-3 sm:py-1.5 rounded-xl border border-[#EDE8DF] bg-white hover:bg-[#F9F7F3] text-xs font-semibold text-[#5A5247] shadow-2xs flex items-center justify-center gap-1.5 transition-all"
+              className="w-7.5 h-7.5 sm:w-auto sm:px-3 sm:py-1.5 rounded-xl border border-[#EDE8DF] bg-white hover:bg-[#F9F7F3] text-xs font-semibold text-[#5A5247] shadow-2xs flex items-center justify-center gap-1.5 transition-all shrink-0"
               title="Administrar Presupuestos"
             >
-              <Target size={14} className="text-[#9678B6]" />
+              <Target size={13} className="text-[#9678B6]" />
               <span className="hidden sm:inline">Presupuestos</span>
             </button>
 
             <button
               type="button"
               onClick={() => handleOpenAddTx('gasto')}
-              className="w-8 h-8 sm:w-auto sm:px-3.5 sm:py-1.5 rounded-xl bg-[#9678B6] hover:bg-[#8666A6] active:bg-[#785996] text-white text-xs font-bold shadow-xs flex items-center justify-center gap-1 transition-all"
+              className="w-7.5 h-7.5 sm:w-auto sm:px-3.5 sm:py-1.5 rounded-xl bg-[#9678B6] hover:bg-[#8666A6] active:bg-[#785996] text-white text-xs font-bold shadow-xs flex items-center justify-center gap-1 transition-all shrink-0"
               title="Nuevo movimiento"
             >
-              <Plus size={15} />
+              <Plus size={14} />
               <span className="hidden sm:inline">Nuevo</span>
             </button>
 
@@ -140,20 +140,20 @@ export const Dashboard: React.FC = () => {
             <button
               type="button"
               onClick={lockApp}
-              className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl border border-[#EDE8DF] bg-white hover:bg-[#F4EDFA] text-[#7A7267] hover:text-[#9678B6] flex items-center justify-center shadow-2xs transition-colors"
+              className="w-7.5 h-7.5 sm:w-9 sm:h-9 rounded-xl border border-[#EDE8DF] bg-white hover:bg-[#F4EDFA] text-[#7A7267] hover:text-[#9678B6] flex items-center justify-center shadow-2xs transition-colors shrink-0"
               title="Bloquear con PIN"
             >
-              <Lock size={14} />
+              <Lock size={13} />
             </button>
 
             {/* User logout action */}
             <button
               type="button"
               onClick={signOutUser}
-              className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl border border-[#EDE8DF] bg-white hover:bg-[#FDECE8] text-[#7A7267] hover:text-[#8B2E2E] flex items-center justify-center shadow-2xs transition-colors"
+              className="w-7.5 h-7.5 sm:w-9 sm:h-9 rounded-xl border border-[#EDE8DF] bg-white hover:bg-[#FDECE8] text-[#7A7267] hover:text-[#8B2E2E] flex items-center justify-center shadow-2xs transition-colors shrink-0"
               title={`Cerrar sesión (${user?.email || ''})`}
             >
-              <LogOut size={14} />
+              <LogOut size={13} />
             </button>
           </div>
         </div>
@@ -400,12 +400,12 @@ export const Dashboard: React.FC = () => {
             </div>
           </div>
 
-          {/* Interactive Filter Tabs - scrollable horizontally without wrapping or shrinking */}
-          <div className="flex items-center gap-1.5 p-1 bg-[#F5EFE6] rounded-2xl mb-4 w-full sm:max-w-md overflow-x-auto overscroll-contain-touch">
+          {/* Interactive Filter Tabs - 4 equal columns on all screens */}
+          <div className="grid grid-cols-4 gap-1 p-1 bg-[#F5EFE6] rounded-2xl mb-4 w-full sm:max-w-md">
             <button
               type="button"
               onClick={() => setActiveTab('all')}
-              className={`flex-1 py-1.5 px-2 text-xs font-semibold rounded-xl transition-all whitespace-nowrap text-center ${
+              className={`py-1.5 px-1 sm:px-2 text-[11px] sm:text-xs font-semibold rounded-xl transition-all text-center truncate ${
                 activeTab === 'all'
                   ? 'bg-white text-[#2D2721] shadow-2xs'
                   : 'text-[#7A7267] hover:text-[#2D2721]'
@@ -416,7 +416,7 @@ export const Dashboard: React.FC = () => {
             <button
               type="button"
               onClick={() => setActiveTab('gasto')}
-              className={`flex-1 py-1.5 px-2 text-xs font-semibold rounded-xl transition-all whitespace-nowrap text-center ${
+              className={`py-1.5 px-1 sm:px-2 text-[11px] sm:text-xs font-semibold rounded-xl transition-all text-center truncate ${
                 activeTab === 'gasto'
                   ? 'bg-[#FDECE8] text-[#8B2E2E] shadow-2xs'
                   : 'text-[#7A7267] hover:text-[#2D2721]'
@@ -427,7 +427,7 @@ export const Dashboard: React.FC = () => {
             <button
               type="button"
               onClick={() => setActiveTab('ingreso')}
-              className={`flex-1 py-1.5 px-2 text-xs font-semibold rounded-xl transition-all whitespace-nowrap text-center ${
+              className={`py-1.5 px-1 sm:px-2 text-[11px] sm:text-xs font-semibold rounded-xl transition-all text-center truncate ${
                 activeTab === 'ingreso'
                   ? 'bg-[#EBF1E6] text-[#3B4B2E] shadow-2xs'
                   : 'text-[#7A7267] hover:text-[#2D2721]'
@@ -438,7 +438,7 @@ export const Dashboard: React.FC = () => {
             <button
               type="button"
               onClick={() => setActiveTab('ahorro')}
-              className={`flex-1 py-1.5 px-2 text-xs font-semibold rounded-xl transition-all whitespace-nowrap text-center ${
+              className={`py-1.5 px-1 sm:px-2 text-[11px] sm:text-xs font-semibold rounded-xl transition-all text-center truncate ${
                 activeTab === 'ahorro'
                   ? 'bg-[#FCF6E5] text-[#614E15] shadow-2xs'
                   : 'text-[#7A7267] hover:text-[#2D2721]'

@@ -80,7 +80,10 @@ export const FinanceProvider: React.FC<{ children: React.ReactNode }> = ({ child
       categoriesRef,
       async (snapshot) => {
         const loadedCats: Category[] = [];
+        const seenIds = new Set<string>();
         snapshot.forEach((docSnap) => {
+          if (seenIds.has(docSnap.id)) return;
+          seenIds.add(docSnap.id);
           const data = docSnap.data();
           loadedCats.push({
             id: docSnap.id,
@@ -93,7 +96,7 @@ export const FinanceProvider: React.FC<{ children: React.ReactNode }> = ({ child
           });
         });
 
-        // Always update categories state with actual snapshot data
+        // Always update categories state with actual snapshot data from Firestore
         setCategories(loadedCats);
 
         // One-time initial seeding for brand new users only
@@ -317,14 +320,15 @@ export const FinanceProvider: React.FC<{ children: React.ReactNode }> = ({ child
     localStorage.setItem(`cat_seeded_${user.uid}`, 'true');
     try {
       const catCollectionRef = collection(db, 'users', user.uid, 'categories');
-      const docRef = await addDoc(catCollectionRef, {
+      await addDoc(catCollectionRef, {
         ...data,
         created_at: new Date().toISOString(),
         user_id: user.uid,
       });
-      setCategories((prev) => [...prev, { id: docRef.id, ...data, user_id: user.uid }]);
+      // onSnapshot automatically updates categories state from Firestore cache and remote
     } catch (err) {
       handleFirestoreError(err, OperationType.CREATE, `users/${user.uid}/categories`);
+      throw err;
     }
   };
 
@@ -334,9 +338,9 @@ export const FinanceProvider: React.FC<{ children: React.ReactNode }> = ({ child
     try {
       const docRef = doc(db, 'users', user.uid, 'categories', id);
       await updateDoc(docRef, data);
-      setCategories((prev) => prev.map((c) => (c.id === id ? { ...c, ...data } : c)));
     } catch (err) {
       handleFirestoreError(err, OperationType.UPDATE, `users/${user.uid}/categories/${id}`);
+      throw err;
     }
   };
 
@@ -346,9 +350,9 @@ export const FinanceProvider: React.FC<{ children: React.ReactNode }> = ({ child
     try {
       const docRef = doc(db, 'users', user.uid, 'categories', id);
       await deleteDoc(docRef);
-      setCategories((prev) => prev.filter((c) => c.id !== id));
     } catch (err) {
       handleFirestoreError(err, OperationType.DELETE, `users/${user.uid}/categories/${id}`);
+      throw err;
     }
   };
 
