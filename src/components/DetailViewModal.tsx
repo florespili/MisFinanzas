@@ -3,6 +3,7 @@ import { useFinance } from '../context/FinanceContext';
 import { TransactionType, DetailViewType } from '../types/finance';
 import { formatCurrency, formatDateShort, formatMonthYear } from '../utils/formatters';
 import { ConfirmModal } from './ConfirmModal';
+import { CategoryIcon } from './CategoryIcon';
 import { ArrowLeft, Trash2, PieChart, Tag, Calendar, Plus } from 'lucide-react';
 
 interface DetailViewModalProps {
@@ -152,7 +153,7 @@ export const DetailViewModal: React.FC<DetailViewModalProps> = ({
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                          <span className="text-xl">{item.icon}</span>
+                          <CategoryIcon iconOrUrl={item.icon} name={item.name} size="sm" />
                           <span className="text-xs font-bold text-[#2D2721]">{item.name}</span>
                         </div>
                         <div className="text-right">
@@ -198,9 +199,13 @@ export const DetailViewModal: React.FC<DetailViewModalProps> = ({
                     className="p-3 rounded-2xl border border-[#EDE8DF] bg-white hover:border-[#DCD5C9] transition-all flex items-center justify-between gap-3 shadow-2xs"
                   >
                     <div className="flex items-center gap-3 min-w-0 flex-1">
-                      <span className="text-2xl p-1 rounded-xl bg-[#FAF8F5] shrink-0">
-                        {tx.category_icon || '💰'}
-                      </span>
+                      <div className="shrink-0 p-1 rounded-xl bg-[#FAF8F5] border border-[#F0EBE1] flex items-center justify-center">
+                        <CategoryIcon
+                          iconOrUrl={tx.category_icon || '💰'}
+                          name={tx.category_name}
+                          size="md"
+                        />
+                      </div>
                       <div className="min-w-0 flex-1">
                         <div className="flex items-center gap-1.5">
                           <h4 className="text-xs font-bold text-[#2D2721] truncate">

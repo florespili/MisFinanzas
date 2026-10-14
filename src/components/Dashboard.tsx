@@ -8,6 +8,7 @@ import { CategoriesModal } from './CategoriesModal';
 import { BudgetsModal } from './BudgetsModal';
 import { DetailViewModal } from './DetailViewModal';
 import { ConfirmModal } from './ConfirmModal';
+import { CategoryIcon } from './CategoryIcon';
 import {
   Wallet,
   ChevronLeft,
@@ -470,9 +471,13 @@ export const Dashboard: React.FC = () => {
                   className="p-3 sm:p-3.5 rounded-2xl border border-[#EDE8DF] bg-white hover:border-[#DCD5C9] transition-all flex items-center justify-between gap-2.5 sm:gap-3 shadow-2xs"
                 >
                   <div className="flex items-center gap-2.5 sm:gap-3 min-w-0 flex-1">
-                    <span className="text-xl sm:text-2xl p-1.5 rounded-xl bg-[#FAF8F5] shrink-0 border border-[#F0EBE1]">
-                      {tx.category_icon || '💰'}
-                    </span>
+                    <div className="shrink-0 p-1 rounded-xl bg-[#FAF8F5] border border-[#F0EBE1] flex items-center justify-center">
+                      <CategoryIcon
+                        iconOrUrl={tx.category_icon || '💰'}
+                        name={tx.category_name}
+                        size="md"
+                      />
+                    </div>
 
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">

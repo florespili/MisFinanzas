@@ -5,14 +5,49 @@ import {
   doc,
   getDocFromServer,
 } from 'firebase/firestore';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import firebaseConfig from '@/firebase-applet-config.json';
 
 const app = initializeApp(firebaseConfig);
 
 export const db = getFirestore(app, firebaseConfig.firestoreDatabaseId);
 export const auth = getAuth(app);
+export const storage = getStorage(app);
 export const googleProvider = new GoogleAuthProvider();
 googleProvider.setCustomParameters({ prompt: 'select_account' });
+
+/**
+ * Attempts to upload an optimized category image to Firebase Storage.
+ * If Firebase Storage is not enabled on the user's project, or fails due to
+ * permissions/CORS, it gracefully returns the compressed Base64 Data URL,
+ * ensuring the user never experiences data loss or interface errors.
+ */
+export async function uploadCategoryImage(
+  userId: string,
+  categoryId: string,
+  imageBlob: Blob,
+  fallbackDataUrl: string
+): Promise<string> {
+  try {
+    const ext = imageBlob.type === 'image/webp' ? 'webp' : 'jpg';
+    const filename = `${categoryId || 'new'}_${Date.now()}.${ext}`;
+    const storageRef = ref(storage, `users/${userId}/categories/${filename}`);
+
+    const uploadResult = await uploadBytes(storageRef, imageBlob, {
+      contentType: imageBlob.type,
+      cacheControl: 'public, max-age=31536000',
+    });
+
+    const downloadUrl = await getDownloadURL(uploadResult.ref);
+    return downloadUrl;
+  } catch (storageError) {
+    console.warn(
+      'Firebase Storage no está habilitado o falló la subida. Utilizando imagen comprimida optimizada persistente en Firestore:',
+      storageError
+    );
+    return fallbackDataUrl;
+  }
+}
 
 export enum OperationType {
   CREATE = 'create',

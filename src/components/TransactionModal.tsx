@@ -3,6 +3,7 @@ import { useFinance } from '../context/FinanceContext';
 import { TransactionType } from '../types/finance';
 import { getTodayDateString } from '../utils/formatters';
 import { X, Calendar, FileText, Check } from 'lucide-react';
+import { CategoryIcon } from './CategoryIcon';
 
 interface TransactionModalProps {
   isOpen: boolean;
@@ -204,7 +205,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
                           : 'border-[#EDE8DF] bg-white text-[#5A5247] hover:bg-[#FAF8F5]'
                       }`}
                     >
-                      <span className="text-lg sm:text-xl shrink-0">{cat.icon_or_image_url}</span>
+                      <CategoryIcon iconOrUrl={cat.icon_or_image_url} name={cat.name} size="sm" />
                       <span className="text-xs font-semibold truncate">{cat.name}</span>
                     </button>
                   );

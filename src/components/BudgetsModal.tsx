@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useFinance } from '../context/FinanceContext';
 import { formatCurrency } from '../utils/formatters';
 import { X, Target, Check, AlertCircle } from 'lucide-react';
+import { CategoryIcon } from './CategoryIcon';
 
 interface BudgetsModalProps {
   isOpen: boolean;
@@ -111,9 +112,13 @@ export const BudgetsModal: React.FC<BudgetsModalProps> = ({ isOpen, onClose }) =
               >
                 <div className="flex items-center justify-between gap-3">
                   <div className="flex items-center gap-2.5 min-w-0">
-                    <span className="text-2xl shrink-0 p-1 rounded-xl bg-[#FAF8F5]">
-                      {cat.icon_or_image_url}
-                    </span>
+                    <div className="shrink-0 p-1 rounded-xl bg-[#FAF8F5] border border-[#F0EBE1] flex items-center justify-center">
+                      <CategoryIcon
+                        iconOrUrl={cat.icon_or_image_url}
+                        name={cat.name}
+                        size="md"
+                      />
+                    </div>
                     <div className="min-w-0">
                       <h4 className="text-sm font-bold text-[#2D2721] truncate">{cat.name}</h4>
                       <p className="text-[11px] text-[#7A7267] tabular-nums">

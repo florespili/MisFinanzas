@@ -59,8 +59,8 @@
         },
         "icon_or_image_url": {
           "type": "string",
-          "description": "Emoji string or image URL",
-          "maxLength": 2048
+          "description": "Emoji string, image URL, or compressed image data URI",
+          "maxLength": 65536
         },
         "subcategories": {
           "type": "array",
