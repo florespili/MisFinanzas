@@ -6,6 +6,8 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signOut,
+  setPersistence,
+  browserLocalPersistence,
 } from 'firebase/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { auth, db, googleProvider, handleFirestoreError, OperationType } from '../firebase/config';
@@ -37,16 +39,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [storedPinHash, setStoredPinHash] = useState<string | null>(null);
 
   useEffect(() => {
+    let isInitialCheck = true;
+
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
       if (currentUser) {
-        setIsLocked(true); // Always require PIN when app is launched with user
+        // Only lock on initial launch/reopening, not on subsequent background token refreshes
+        if (isInitialCheck) {
+          setIsLocked(true);
+        }
         await loadPinConfig(currentUser.uid);
       } else {
         setHasPinSet(false);
         setStoredPinHash(null);
         setIsLocked(false);
       }
+      isInitialCheck = false;
       setLoading(false);
     });
 
@@ -86,6 +94,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const signInWithGoogleAction = async () => {
     try {
+      await setPersistence(auth, browserLocalPersistence);
       await signInWithPopup(auth, googleProvider);
     } catch (err: unknown) {
       console.error('Google Sign In Error:', err);
@@ -94,10 +103,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const signInWithEmailAction = async (email: string, pass: string) => {
+    await setPersistence(auth, browserLocalPersistence);
     await signInWithEmailAndPassword(auth, email, pass);
   };
 
   const signUpWithEmailAction = async (email: string, pass: string) => {
+    await setPersistence(auth, browserLocalPersistence);
     await createUserWithEmailAndPassword(auth, email, pass);
   };
 

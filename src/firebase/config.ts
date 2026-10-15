@@ -1,5 +1,12 @@
-import { initializeApp } from 'firebase/app';
-import { getAuth, GoogleAuthProvider } from 'firebase/auth';
+import { initializeApp, getApps, getApp } from 'firebase/app';
+import {
+  initializeAuth,
+  indexedDBLocalPersistence,
+  browserLocalPersistence,
+  getAuth,
+  setPersistence,
+  GoogleAuthProvider,
+} from 'firebase/auth';
 import {
   getFirestore,
   doc,
@@ -8,10 +15,29 @@ import {
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import firebaseConfig from '@/firebase-applet-config.json';
 
-const app = initializeApp(firebaseConfig);
+const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
 
 export const db = getFirestore(app, firebaseConfig.firestoreDatabaseId);
-export const auth = getAuth(app);
+
+// Initialize Firebase Auth with persistent local storage.
+// Providing indexedDBLocalPersistence and browserLocalPersistence ensures fallback
+// to localStorage on mobile browsers (iOS Safari, Android WebViews, PWAs) where
+// IndexedDB can be partitioned or cleared when closing the app.
+export const auth = (() => {
+  try {
+    return initializeAuth(app, {
+      persistence: [indexedDBLocalPersistence, browserLocalPersistence],
+    });
+  } catch {
+    return getAuth(app);
+  }
+})();
+
+// Explicitly enforce browserLocalPersistence for long-lived session storage
+setPersistence(auth, browserLocalPersistence).catch((err) => {
+  console.warn('Firebase setPersistence notice:', err);
+});
+
 export const storage = getStorage(app);
 export const googleProvider = new GoogleAuthProvider();
 googleProvider.setCustomParameters({ prompt: 'select_account' });
